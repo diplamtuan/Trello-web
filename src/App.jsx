@@ -1,7 +1,4 @@
-import Button from "@mui/material/Button";
-import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import { useColorScheme } from "@mui/material/styles";
-import useMediaQuery from "@mui/material/useMediaQuery";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
@@ -10,6 +7,7 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import SettingsBrightnessIcon from "@mui/icons-material/SettingsBrightness";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import Box from "@mui/material/Box";
+import Container from "@mui/material/Container";
 
 function SelectSmall() {
   const { mode, setMode } = useColorScheme();
@@ -51,19 +49,47 @@ function SelectSmall() {
   );
 }
 function App() {
-  const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const prefersLightMode = useMediaQuery("(prefers-color-scheme: light)");
-  console.log("prefersDarkMode: " + prefersDarkMode);
-  console.log("prefersLightMode: " + prefersLightMode);
   return (
-    <>
-      <SelectSmall />
-      <div>DipLamTuan</div>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-      <AccessTimeFilledIcon />
-    </>
+    <Container
+      disableGutters
+      maxWidth="false"
+      sx={{
+        height: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          height: (theme) => theme.trello.appHeaderHeight,
+          width: "100%",
+          backgroundColor: "primary.light",
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        <SelectSmall />
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: "primary.dark",
+          width: "100%",
+          height: (theme) => theme.trello.appBoardHeight,
+          display: "flex",
+          alignItems: "center",
+        }}
+      >
+        Board Bar
+      </Box>
+      <Box
+        sx={{
+          backgroundColor: "primary.main",
+          height: (theme) =>
+            `calc(100vh - ${theme.trello.appHeaderHeight} - ${theme.trello.appBoardHeight})`,
+          width: "100%",
+        }}
+      >
+        Board Content
+      </Box>
+    </Container>
   );
 }
 
