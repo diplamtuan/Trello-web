@@ -68,7 +68,7 @@ export const theme = extendTheme({
     light: {
       palette: {
         primary: {
-          main: "#45FFCA",
+          main: "#7E2553",
         },
       },
     },

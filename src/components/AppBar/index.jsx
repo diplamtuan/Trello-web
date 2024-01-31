@@ -16,6 +16,7 @@ import Tooltip from "@mui/material/Tooltip";
 import Profile from "./Menu/Profile";
 import Button from "@mui/material/Button";
 import LeftMenu from "./Menu/LeftMenu";
+import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
 function index() {
   return (
     <Box
@@ -69,7 +70,9 @@ function index() {
           {/* Templates */}
           <Templates />
           {/* Create */}
-          <Button variant="outlined">Create</Button>
+          <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
+            Create
+          </Button>
         </Box>
         {/* Menu Left in Responesive */}
         <LeftMenu />
