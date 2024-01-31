@@ -47,6 +47,22 @@ export const theme = extendTheme({
         }),
       },
     },
+    MuiCssBaseline: {
+      styleOverrides: {
+        body: {
+          "*::-webkit-scrollbar": {
+            width: "10px",
+            height: "5px",
+          },
+          "*::-webkit-scrollbar-thumb": {
+            backgroundColor: "#99BC85",
+          },
+          "*::-webkit-scrollbar-thumb:hover": {
+            backgroundColor: "#BFD8AF",
+          },
+        },
+      },
+    },
   },
   colorSchemes: {
     light: {
