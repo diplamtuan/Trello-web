@@ -15,36 +15,33 @@ export const theme = extendTheme({
     },
     MuiTextField: {
       styleOverrides: {
-        root: ({ theme }) => ({
+        root: {
           "& label": {
-            color: theme.palette.primary.main,
+            // color: theme.palette.primary.main,
           },
-        }),
+          "& fieldset": {
+            borderWidth: "0.1px",
+          },
+        },
       },
     },
     MuiInputLabel: {
-      styleOverrides: {
-        root: ({ theme }) => ({
-          color: theme.palette.primary.main,
-        }),
-      },
+      styleOverrides: {},
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        notchedOutline: ({ theme }) => ({
-          borderColor: theme.palette.primary.main,
-        }),
-        root: ({ theme }) => ({
+        root: {
           [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: theme.palette.primary.main,
-          },
-          [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-            borderColor: theme.palette.primary.main,
+            // borderColor: theme.palette.primary.main,
             borderWidth: "1px",
           },
-          color: theme.palette.primary.main,
+          [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
+            // borderColor: theme.palette.primary.main,
+            borderWidth: "1px",
+          },
+          // color: theme.palette.primary.main,
           fontSize: "0.85rem",
-        }),
+        },
       },
     },
     MuiCssBaseline: {
@@ -65,19 +62,19 @@ export const theme = extendTheme({
     },
   },
   colorSchemes: {
-    light: {
-      palette: {
-        primary: {
-          main: "#7E2553",
-        },
-      },
-    },
-    dark: {
-      palette: {
-        primary: {
-          main: "#ED7D31",
-        },
-      },
-    },
+    // light: {
+    //   palette: {
+    //     primary: {
+    //       main: "#7E2553",
+    //     },
+    //   },
+    // },
+    // dark: {
+    //   palette: {
+    //     primary: {
+    //       main: "#ED7D31",
+    //     },
+    //   },
+    // },
   },
 });

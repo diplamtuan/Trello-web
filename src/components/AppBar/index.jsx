@@ -17,7 +17,13 @@ import Profile from "./Menu/Profile";
 import Button from "@mui/material/Button";
 import LeftMenu from "./Menu/LeftMenu";
 import AddToPhotosIcon from "@mui/icons-material/AddToPhotos";
-function index() {
+import InputAdornment from "@mui/material/InputAdornment";
+import SearchIcon from "@mui/icons-material/Search";
+import CloseIcon from "@mui/icons-material/Close";
+import { useRef, useState } from "react";
+function Index() {
+  const [searchValue, setSearchValue] = useState("");
+  const inputSearchRef = useRef(null);
   return (
     <Box
       px={2}
@@ -29,6 +35,8 @@ function index() {
         justifyContent: "space-between",
         gap: 2,
         overflowX: { xs: "auto" },
+        backgroundColor: (theme) =>
+          theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
       }}
     >
       <Box
@@ -38,17 +46,17 @@ function index() {
           gap: 2,
         }}
       >
-        <AppsIcon sx={{ color: "primary.main" }} />
+        <AppsIcon sx={{ color: "white" }} />
         {/* Trello Icon */}
         <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
           <SvgIcon
             component={TrelloIcon}
             inheritViewBox
-            sx={{ color: "primary.main" }}
+            sx={{ color: "white" }}
           />
           <Typography
             sx={{
-              color: "primary.main",
+              color: "white",
               fontSize: "1.2rem",
               fontWeight: "bold",
             }}
@@ -70,7 +78,7 @@ function index() {
           {/* Templates */}
           <Templates />
           {/* Create */}
-          <Button variant="outlined" startIcon={<AddToPhotosIcon />}>
+          <Button sx={{ color: "white" }} startIcon={<AddToPhotosIcon />}>
             Create
           </Button>
         </Box>
@@ -81,23 +89,70 @@ function index() {
       <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
         <TextField
           id="outlined-search"
-          label="Search..."
-          type="search"
+          label="Search"
+          type="text"
           size="small"
-          sx={{ minWidth: "120px" }}
+          value={searchValue}
+          onChange={(e) => {
+            setSearchValue(e.target.value);
+          }}
+          ref={inputSearchRef}
+          sx={{
+            minWidth: "120px",
+            maxWidth: "170px",
+            "& label": {
+              color: "white",
+            },
+            "& label.Mui-focused": {
+              color: "white",
+            },
+            "& .MuiOutlinedInput-root": {
+              color: "white",
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "white",
+              },
+
+              "& fieldset": {
+                borderColor: "white",
+              },
+            },
+          }}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: "white" }} />
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <CloseIcon
+                  fontSize="small"
+                  sx={{ color: searchValue ? "white" : "transparent" }}
+                  onClick={() => {
+                    setSearchValue("");
+                    inputSearchRef.current.querySelector("input").focus();
+                  }}
+                />
+              </InputAdornment>
+            ),
+          }}
         />
         <ModeSelect />
         <Tooltip title="Notification">
-          <Badge color="primary" variant="dot">
-            <NotificationsIcon
-              sx={{ color: "primary.main", cursor: "pointer" }}
-            />
+          <Badge
+            sx={{ ".MuiBadge-badge": { backgroundColor: "white" } }}
+            variant="dot"
+          >
+            <NotificationsIcon sx={{ color: "white", cursor: "pointer" }} />
           </Badge>
         </Tooltip>
 
         {/* Help */}
         <Tooltip title="Help">
-          <HelpOutlineIcon sx={{ color: "primary.main", cursor: "pointer" }} />
+          <HelpOutlineIcon sx={{ color: "white", cursor: "pointer" }} />
         </Tooltip>
         {/* Avatar */}
         <Profile />
@@ -106,4 +161,4 @@ function index() {
   );
 }
 
-export default index;
+export default Index;
