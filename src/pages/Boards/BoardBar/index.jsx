@@ -22,7 +22,9 @@ function index() {
         justifyContent: "space-between",
         gap: 2,
         overflowX: { xs: "auto" },
-        borderTop: (theme) => `1px solid ${theme.palette.primary.main}`,
+        borderBottom: `1px solid white`,
+        backgroundColor: (theme) =>
+          theme.palette.mode === "dark" ? "#ED7D31" : "rgb(126 37 83 / 93%);",
       }}
     >
       <Box
@@ -36,10 +38,10 @@ function index() {
           icon={<LeaderboardIcon />}
           label="Dịp Lâm Tuấn MERN Stack Board"
           sx={{
-            backgroundColor: "white",
-            color: "primary.main",
+            backgroundColor: "transparent",
+            color: "white",
             "& .MuiSvgIcon-root": {
-              color: "primary.main",
+              color: "white",
             },
             "&:hover": {
               backgroundColor: "primary.50",
@@ -55,10 +57,10 @@ function index() {
           icon={<VpnLockIcon />}
           label="Public/Private WorkSpace"
           sx={{
-            backgroundColor: "white",
-            color: "primary.main",
+            backgroundColor: "transparent",
+            color: "white",
             "& .MuiSvgIcon-root": {
-              color: "primary.main",
+              color: "white",
             },
             "&:hover": {
               backgroundColor: "primary.50",
@@ -74,10 +76,10 @@ function index() {
           icon={<AddToDriveIcon />}
           label="Add to Google Drive"
           sx={{
-            backgroundColor: "white",
-            color: "primary.main",
+            backgroundColor: "transparent",
+            color: "white",
             "& .MuiSvgIcon-root": {
-              color: "primary.main",
+              color: "white",
             },
             "&:hover": {
               backgroundColor: "primary.50",
@@ -93,10 +95,10 @@ function index() {
           icon={<BoltIcon />}
           label="Autimation"
           sx={{
-            backgroundColor: "white",
-            color: "primary.main",
+            backgroundColor: "transparent",
+            color: "white",
             "& .MuiSvgIcon-root": {
-              color: "primary.main",
+              color: "white",
             },
             "&:hover": {
               backgroundColor: "primary.50",
@@ -112,10 +114,10 @@ function index() {
           icon={<FilterListIcon />}
           label="Filters"
           sx={{
-            backgroundColor: "white",
-            color: "primary.main",
+            backgroundColor: "transparent",
+            color: "white",
             "& .MuiSvgIcon-root": {
-              color: "primary.main",
+              color: "white",
             },
             "&:hover": {
               backgroundColor: "primary.50",
@@ -136,16 +138,28 @@ function index() {
           gap: 2,
         }}
       >
-        <Button variant="outlined" startIcon={<PersonAddIcon />}>
+        <Button
+          sx={{
+            color: "white",
+            borderColor: "white",
+            "&:hover": {
+              borderColor: "white",
+            },
+          }}
+          variant="outlined"
+          startIcon={<PersonAddIcon />}
+        >
           Create
         </Button>
         <AvatarGroup
           max={7}
           sx={{
+            gap: "10px",
             "& .MuiAvatar-root": {
               width: "30px",
               height: "30px",
               fontSize: "1rem",
+              border: "none",
             },
           }}
         >

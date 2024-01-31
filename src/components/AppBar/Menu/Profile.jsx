@@ -26,13 +26,13 @@ function Profile() {
         <IconButton
           onClick={handleClick}
           size="small"
-          sx={{ padding: 0 }}
+          sx={{ padding: 0, color: "white" }}
           aria-controls={open ? "basic-menu-workspaces" : undefined}
           aria-haspopup="true"
           aria-expanded={open ? "true" : undefined}
         >
           <Avatar
-            sx={{ width: "30px", height: "30px" }}
+            sx={{ width: "36px", height: "36px" }}
             alt="Vorke"
             src="https://scontent.fsgn2-11.fna.fbcdn.net/v/t39.30808-6/364774780_1733033167142017_4197371212770652663_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=efb6e6&_nc_ohc=WY9oxP2Mf9sAX9Dfzjj&_nc_ht=scontent.fsgn2-11.fna&cb_e2o_trans=t&oh=00_AfD4UdfkmBX4jXGhgWMoZSEsE51H7LUVQ8YwJr1GaykVlw&oe=65BFABAA"
           />
