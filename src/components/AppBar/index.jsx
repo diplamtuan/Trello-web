@@ -15,6 +15,7 @@ import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Tooltip from "@mui/material/Tooltip";
 import Profile from "./Menu/Profile";
 import Button from "@mui/material/Button";
+import LeftMenu from "./Menu/LeftMenu";
 function index() {
   return (
     <Box
@@ -25,6 +26,8 @@ function index() {
         display: "flex",
         alignItems: "center",
         justifyContent: "space-between",
+        gap: 2,
+        overflowX: { xs: "auto" },
       }}
     >
       <Box
@@ -52,27 +55,33 @@ function index() {
             Trello
           </Typography>
         </Box>
-        {/* WorkSpaces */}
-        <WorkSpaces />
 
-        {/* Recent */}
-        <Recent />
+        <Box sx={{ display: { xs: "none", lg: "flex" } }}>
+          {/* WorkSpaces */}
+          <WorkSpaces />
 
-        {/* Starred */}
-        <Starred />
+          {/* Recent */}
+          <Recent />
 
-        {/* Templates */}
-        <Templates />
-        {/* Create */}
-        <Button variant="outlined">Create</Button>
+          {/* Starred */}
+          <Starred />
+
+          {/* Templates */}
+          <Templates />
+          {/* Create */}
+          <Button variant="outlined">Create</Button>
+        </Box>
+        {/* Menu Left in Responesive */}
+        <LeftMenu />
       </Box>
 
       <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
         <TextField
           id="outlined-search"
-          label="Search field"
+          label="Search..."
           type="search"
           size="small"
+          sx={{ minWidth: "120px" }}
         />
         <ModeSelect />
         <Tooltip title="Notification">
