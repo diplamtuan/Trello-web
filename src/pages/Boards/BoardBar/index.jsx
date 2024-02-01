@@ -22,7 +22,6 @@ function index() {
         justifyContent: "space-between",
         gap: 2,
         overflowX: { xs: "auto" },
-        borderBottom: `1px solid white`,
         backgroundColor: (theme) =>
           theme.palette.mode === "dark" ? "#ED7D31" : "rgb(126 37 83 / 93%);",
       }}

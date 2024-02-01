@@ -1,9 +1,13 @@
 import { experimental_extendTheme as extendTheme } from "@mui/material/styles";
 import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+const APP_HEADER_HEIGHT = "58px";
+const APP_BOARD_HEIGHT = "60px";
+const APP_BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_HEADER_HEIGHT} - ${APP_BOARD_HEIGHT})`;
 export const theme = extendTheme({
   trello: {
-    appHeaderHeight: "58px",
-    appBoardHeight: "60px",
+    appHeaderHeight: APP_HEADER_HEIGHT,
+    appBoardHeight: APP_BOARD_HEIGHT,
+    appBoardContentHeight: APP_BOARD_CONTENT_HEIGHT,
   },
   components: {
     MuiButton: {
@@ -27,6 +31,17 @@ export const theme = extendTheme({
     },
     MuiInputLabel: {
       styleOverrides: {},
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {},
+        h6: {
+          fontSize: "1.2rem",
+        },
+        body1: {
+          fontSize: "0.875rem",
+        },
+      },
     },
     MuiOutlinedInput: {
       styleOverrides: {
