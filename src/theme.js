@@ -3,11 +3,15 @@ import { outlinedInputClasses } from "@mui/material/OutlinedInput";
 const APP_HEADER_HEIGHT = "58px";
 const APP_BOARD_HEIGHT = "60px";
 const APP_BOARD_CONTENT_HEIGHT = `calc(100vh - ${APP_HEADER_HEIGHT} - ${APP_BOARD_HEIGHT})`;
+const HEADER_COLUMN_HEIGHT = "48px";
+const FOOTER_COLUMN_HEIGHT = "52px";
 export const theme = extendTheme({
   trello: {
     appHeaderHeight: APP_HEADER_HEIGHT,
     appBoardHeight: APP_BOARD_HEIGHT,
     appBoardContentHeight: APP_BOARD_CONTENT_HEIGHT,
+    headerColumnHeight: HEADER_COLUMN_HEIGHT,
+    footerColumnHeight: FOOTER_COLUMN_HEIGHT,
   },
   components: {
     MuiButton: {
