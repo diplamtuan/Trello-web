@@ -17,8 +17,10 @@ import DragHandleIcon from "@mui/icons-material/DragHandle";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import ListCards from "./ListCards/ListCards";
-
-function Column() {
+import { mapOrder } from "~/utils/sorts";
+function Column({ column }) {
+  const { cards } = column;
+  const cardsOrdered = mapOrder(cards, column.cardOrderIds, "_id");
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -58,7 +60,7 @@ function Column() {
               theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
           }}
         >
-          Column Title
+          {column?.title}
         </Typography>
         <Box>
           <ExpandMoreIcon
@@ -123,7 +125,7 @@ function Column() {
         </Box>
       </Box>
       {/* List Box */}
-      <ListCards />
+      <ListCards cards={cardsOrdered} />
       {/* Footer Box */}
       <Box
         sx={{

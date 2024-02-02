@@ -10,7 +10,8 @@ import AvatarGroup from "@mui/material/AvatarGroup";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-function index() {
+import { capitalizeFirstLetter } from "~/utils/formatters";
+function index({ board }) {
   return (
     <Box
       px={2}
@@ -35,7 +36,7 @@ function index() {
       >
         <Chip
           icon={<LeaderboardIcon />}
-          label="Dịp Lâm Tuấn MERN Stack Board"
+          label={board?.title}
           sx={{
             backgroundColor: "transparent",
             color: "white",
@@ -54,7 +55,7 @@ function index() {
         />
         <Chip
           icon={<VpnLockIcon />}
-          label="Public/Private WorkSpace"
+          label={capitalizeFirstLetter(board.type)}
           sx={{
             backgroundColor: "transparent",
             color: "white",
