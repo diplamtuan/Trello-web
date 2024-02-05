@@ -18,6 +18,8 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import ListCards from "./ListCards/ListCards";
 import { mapOrder } from "~/utils/sorts";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 function Column({ column }) {
   const { cards } = column;
   const cardsOrdered = mapOrder(cards, column.cardOrderIds, "_id");
@@ -29,8 +31,21 @@ function Column({ column }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({ id: column._id, data: { ...column } });
+
+  const dndKitColumnStyles = {
+    touchAction: "none",
+    transform: CSS.Translate.toString(transform),
+    transition,
+  };
   return (
     <Box
+      ref={setNodeRef}
+      style={dndKitColumnStyles}
+      {...attributes}
+      {...listeners}
       sx={{
         margin: "0 10px",
         borderRadius: "10px",
