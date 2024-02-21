@@ -10,6 +10,7 @@ import {
   defaultDropAnimationSideEffects,
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
+import { cloneDeep } from "lodash";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
@@ -55,7 +56,13 @@ function Index({ board }) {
   useEffect(() => {
     setOrderedColumns(mapOrder(columns, board.columnOrderIds, "_id"));
   }, [board, columns]);
-
+  // findColumnByCardId
+  const findColumnByCardId = (cardId) => {
+    return orderedColumns.find((column) =>
+      column.cards.map((card) => card._id).includes(cardId)
+    );
+  };
+  // HandleDragStar
   const handleDragStart = (event) => {
     setActiveDragOverId(event?.active?.id);
     setActiveDragOverType(
@@ -65,8 +72,90 @@ function Index({ board }) {
     );
     setActiveDragOverData(event?.active?.data?.current);
   };
+  const handleDragOver = (event) => {
+    if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+      return;
+    }
+    // console.log("HandleDragOver ", event);
+    const { active, over } = event;
 
+    if (!active?.id || !over?.id) return;
+
+    const {
+      id: activeDraggingCardId,
+      data: { current: activeDraggingCardData },
+    } = active;
+    const { id: overCardId } = over;
+
+    // Tìm 2 column của cardActive và cardOver
+    const activeColumn = findColumnByCardId(activeDraggingCardId);
+    const overColumn = findColumnByCardId(overCardId);
+
+    if (!activeColumn || !overColumn) return;
+
+    // Nếu activeColumn và overColumn khác nhau
+    if (activeColumn._id !== overColumn._id) {
+      setOrderedColumns((prevColumn) => {
+        const overCardIndex = overColumn?.cards?.findIndex(
+          (card) => card._id === overCardId
+        );
+        let newCardIndex;
+        const isBelowOverItem =
+          active.rect.current.translated &&
+          active.rect.current.translated.top > over.rect.top + over.rect.height;
+
+        const modifier = isBelowOverItem ? 1 : 0;
+
+        newCardIndex =
+          overCardIndex >= 0
+            ? overCardIndex + modifier
+            : overColumn?.cards?.length + 1;
+
+        // Clone dữ liệu mới để không ảnh hưởng
+        const nextColumns = cloneDeep(prevColumn);
+        const nextActiveColumn = nextColumns.find(
+          (column) => column._id === activeColumn._id
+        );
+        const nextOverColumn = nextColumns.find(
+          (column) => column._id === overColumn._id
+        );
+
+        if (nextActiveColumn) {
+          // Xóa card đang dragging ở columnActive
+          nextActiveColumn.cards = nextActiveColumn.cards.filter(
+            (card) => card._id !== activeDraggingCardId
+          );
+          // Cập nhật lại mảng OrderIds
+          nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
+            (card) => card._id
+          );
+        }
+        if (nextOverColumn) {
+          // Kiểm tra xem card đang kéo có nằm ở column kia hay không và xóa đi
+          nextOverColumn.cards = nextOverColumn.cards.filter(
+            (card) => card._id !== activeDraggingCardId
+          );
+
+          // Thêm card đang kéo vào overColumn theo vi tri index mới
+          nextOverColumn.cards = nextOverColumn.cards.toSpliced(
+            newCardIndex,
+            0,
+            activeDraggingCardData
+          );
+          // Cập nhật mảng orderIds
+          nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
+            (card) => card._id
+          );
+        }
+        return nextColumns;
+      });
+    }
+  };
+  // HandleDragEnd
   const handleDragend = (event) => {
+    if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      return;
+    }
     const { active, over } = event;
     if (!over?.id) return;
 
@@ -91,9 +180,10 @@ function Index({ board }) {
 
   return (
     <DndContext
-      onDragEnd={handleDragend}
       sensors={sensors}
       onDragStart={handleDragStart}
+      onDragOver={handleDragOver}
+      onDragEnd={handleDragend}
     >
       <ListComlumns columns={orderedColumns} />
 
