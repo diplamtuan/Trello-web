@@ -8,7 +8,7 @@ import {
   TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  closetCenter,
+  closestCenter,
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { cloneDeep } from "lodash";
@@ -154,11 +154,13 @@ function Index({ board }) {
   };
   // HandleDragEnd
   const handleDragend = (event) => {
-    if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
-      return;
-    }
     const { active, over } = event;
     if (!over?.id) return;
+    // Nếu kéo thả Card
+    if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
+      console.log("Keo tha card khong lam gi ca");
+      return;
+    }
 
     if (active?.id !== over?.id) {
       // Tìm index của active id trong mảng
@@ -182,7 +184,7 @@ function Index({ board }) {
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closetCenter}
+      collisionDetection={closestCenter}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragend}
