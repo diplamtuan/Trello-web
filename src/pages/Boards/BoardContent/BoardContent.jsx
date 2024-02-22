@@ -8,6 +8,7 @@ import {
   TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
+  closetCenter,
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { cloneDeep } from "lodash";
@@ -181,6 +182,7 @@ function Index({ board }) {
   return (
     <DndContext
       sensors={sensors}
+      collisionDetection={closetCenter}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragend}
