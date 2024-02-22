@@ -8,7 +8,7 @@ import {
   TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  closestCenter,
+  closestCorners,
 } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { cloneDeep } from "lodash";
@@ -54,6 +54,9 @@ function Index({ board }) {
   const [activeDragOverId, setActiveDragOverId] = useState(null);
   const [activeDragOverType, setActiveDragOverType] = useState(null);
   const [activeDragOverData, setActiveDragOverData] = useState(null);
+  const [oldColumnWhenDraggingCard, setOldColumnWhenDraggingCard] =
+    useState(null);
+
   useEffect(() => {
     setOrderedColumns(mapOrder(columns, board.columnOrderIds, "_id"));
   }, [board, columns]);
@@ -71,6 +74,11 @@ function Index({ board }) {
         ? ACTIVE_DRAG_ITEM_TYPE.CARD
         : ACTIVE_DRAG_ITEM_TYPE.COLUMN
     );
+
+    // Hanh dong keo card
+    if (event?.active?.data?.current?.columnId) {
+      setOldColumnWhenDraggingCard(findColumnByCardId(event?.active?.id));
+    }
     setActiveDragOverData(event?.active?.data?.current);
   };
   const handleDragOver = (event) => {
@@ -158,33 +166,91 @@ function Index({ board }) {
     if (!over?.id) return;
     // Nếu kéo thả Card
     if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
-      console.log("Keo tha card khong lam gi ca");
-      return;
+      const {
+        id: activeDraggingCardId,
+        data: { current: activeDraggingCardData },
+      } = active;
+      const { id: overCardId } = over;
+
+      // Tìm 2 column của cardActive và cardOver
+      const activeColumn = findColumnByCardId(activeDraggingCardId);
+      const overColumn = findColumnByCardId(overCardId);
+
+      if (!activeColumn || !overColumn) return;
+
+      // Neu keo tha card khac column
+      if (oldColumnWhenDraggingCard._id !== overColumn._id) {
+        //
+      } else {
+        // Neu keo tha card cung column
+        const oldCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
+          (c) => c._id === activeDragOverId
+        );
+
+        // Tìm index của over id trong mảng
+        const newCardIndex = oldColumnWhenDraggingCard?.cards?.findIndex(
+          (c) => c._id === overCardId
+        );
+        const dndOrderedCard = arrayMove(
+          oldColumnWhenDraggingCard?.cards,
+          oldCardIndex,
+          newCardIndex
+        );
+
+        setOrderedColumns((prevColumn) => {
+          const nextColumns = cloneDeep(prevColumn);
+
+          // Tim toi column dang tha?
+
+          const targetColumn = nextColumns.find(
+            (c) => c._id === overColumn._id
+          );
+
+          // Cap nhat 2 gia tri moi
+          // Cards
+          targetColumn.cards = dndOrderedCard;
+          // CardOrderIds
+          targetColumn.cardOrderIds = dndOrderedCard.map((card) => card._id);
+          return nextColumns;
+        });
+      }
     }
 
-    if (active?.id !== over?.id) {
-      // Tìm index của active id trong mảng
-      const oldIndex = orderedColumns.findIndex((c) => c._id === active?.id);
+    // Nếu kéo thả Card
+    if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.COLUMN) {
+      if (active?.id !== over?.id) {
+        // Tìm index của active id trong mảng
+        const oldColumnIndex = orderedColumns.findIndex(
+          (c) => c._id === active?.id
+        );
 
-      // Tìm index của over id trong mảng
-      const newIndex = orderedColumns.findIndex((c) => c._id === over?.id);
+        // Tìm index của over id trong mảng
+        const newColumnIndex = orderedColumns.findIndex(
+          (c) => c._id === over?.id
+        );
 
-      const newArray = arrayMove(orderedColumns, oldIndex, newIndex);
-      setOrderedColumns(newArray);
+        const dndOrderedColumn = arrayMove(
+          orderedColumns,
+          oldColumnIndex,
+          newColumnIndex
+        );
+        setOrderedColumns(dndOrderedColumn);
 
-      // Trả về mảng giá trị id của orderedColumn sau khi drag
-      // Mốt call API trả mảng này đi
-      // const idOrderedColumnAfterDrag = newArray.map((c) => c._id);
+        // Trả về mảng giá trị id của orderedColumn sau khi drag
+        // Mốt call API trả mảng này đi
+        // const idOrderedColumnAfterDrag = newArray.map((c) => c._id);
+      }
     }
     setActiveDragOverId(null);
     setActiveDragOverType(null);
     setActiveDragOverData(null);
+    setOldColumnWhenDraggingCard(null);
   };
 
   return (
     <DndContext
       sensors={sensors}
-      collisionDetection={closestCenter}
+      collisionDetection={closestCorners}
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
       onDragEnd={handleDragend}
