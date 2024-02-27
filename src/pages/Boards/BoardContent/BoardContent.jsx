@@ -8,11 +8,10 @@ import {
   TouchSensor,
   DragOverlay,
   defaultDropAnimationSideEffects,
-  closestCorners,
-  closestCenter,
   pointerWithin,
   rectIntersection,
   getFirstCollision,
+  closestCorners,
 } from "@dnd-kit/core";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { cloneDeep } from "lodash";
@@ -77,17 +76,18 @@ function Index({ board }) {
       if (activeDragOverType === ACTIVE_DRAG_ITEM_TYPE.CARD) {
         // Tìm các điểm giao nhau, va nhau trong con trỏ
         const pointerIntersection = pointerWithin(args);
-        const intersections =
-          pointerIntersection?.length > 0
-            ? pointerIntersection
-            : rectIntersection(args);
-        let overId = getFirstCollision(intersections, "id");
+        if (!pointerIntersection?.length) return;
+        // const intersections =
+        //   pointerIntersection?.length > 0
+        //     ? pointerIntersection
+        //     : rectIntersection(args);
+        let overId = getFirstCollision(pointerIntersection, "id");
         if (overId) {
           const checkColumn = orderedColumns.find(
             (column) => column._id == overId
           );
           if (checkColumn) {
-            overId = closestCenter({
+            overId = closestCorners({
               ...args,
               droppableContainers: args.droppableContainers.filter(
                 (container) => {
