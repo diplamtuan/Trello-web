@@ -14,10 +14,11 @@ import {
   closestCorners,
 } from "@dnd-kit/core";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { cloneDeep } from "lodash";
+import { cloneDeep, isEmpty } from "lodash";
 import { arrayMove } from "@dnd-kit/sortable";
 import Column from "./ListColumns/Column/Column";
 import Card from "./ListColumns/Column/ListCards/Card/Card";
+import { generatePlaceholderCard } from "~/utils/formatters";
 const ACTIVE_DRAG_ITEM_TYPE = {
   COLUMN: "ACTIVE_DRAG_ITEM_TYPE_COLUMN",
   CARD: "ACTIVE_DRAG_ITEM_TYPE_CARD",
@@ -159,6 +160,12 @@ function Index({ board }) {
         nextActiveColumn.cards = nextActiveColumn.cards.filter(
           (card) => card._id !== activeDraggingCardId
         );
+
+        // Kiểm tra card đang kéo phải là card cuối cùng hay không
+        if (isEmpty(nextActiveColumn.cards)) {
+          nextActiveColumn.cards = [generatePlaceholderCard(nextActiveColumn)];
+        }
+
         // Cập nhật lại mảng OrderIds
         nextActiveColumn.cardOrderIds = nextActiveColumn.cards.map(
           (card) => card._id
@@ -182,11 +189,15 @@ function Index({ board }) {
           0,
           rebuild_activeDraggingCardData
         );
+        nextOverColumn.cards = nextOverColumn.cards.filter(
+          (card) => !card.FE_PlaceholderCard
+        );
         // Cập nhật mảng orderIds
         nextOverColumn.cardOrderIds = nextOverColumn.cards.map(
           (card) => card._id
         );
       }
+      console.log("nextColumn: ", nextColumns);
       return nextColumns;
     });
   };
