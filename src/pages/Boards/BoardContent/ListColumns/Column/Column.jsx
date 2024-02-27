@@ -46,138 +46,138 @@ function Column({ column }) {
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : undefined,
+    height: "100%",
   };
   return (
-    <Box
-      ref={setNodeRef}
-      style={dndKitColumnStyles}
-      {...attributes}
-      {...listeners}
-      sx={{
-        margin: "0 10px",
-        borderRadius: "10px",
-        display: "flex",
-        flexDirection: "column",
-        maxWidth: "300px",
-        minWidth: "300px",
-        height: "fit-content",
-        backgroundColor: "#FDF0D1",
-        // padding: "0 10px",
-      }}
-    >
-      {/* Header Box */}
+    <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
+        {...listeners}
         sx={{
+          margin: "0 10px",
+          borderRadius: "10px",
           display: "flex",
-          padding: "8px 16px",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: (theme) => theme.trello.headerColumnHeight,
+          flexDirection: "column",
+          maxWidth: "300px",
+          minWidth: "300px",
+          height: "fit-content",
+          backgroundColor: "#FDF0D1",
+          // padding: "0 10px",
         }}
       >
-        <Typography
-          variant="h6"
+        {/* Header Box */}
+        <Box
           sx={{
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
+            display: "flex",
+            padding: "8px 16px",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: (theme) => theme.trello.headerColumnHeight,
           }}
         >
-          {column?.title}
-        </Typography>
-        <Box>
-          <ExpandMoreIcon
-            id="basic-button-column-dropdown"
-            aria-controls={open ? "basic-column-dropdown" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
+          <Typography
+            variant="h6"
             sx={{
               color: (theme) =>
                 theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
-              cursor: "pointer",
-            }}
-          />
-          <Menu
-            id="basic-column-dropdown"
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            MenuListProps={{
-              "aria-labelledby": "basic-button-column-dropdown",
             }}
           >
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <AddCardIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Add New Card</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <ContentCutIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Cut</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <ContentCopyIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Copy</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <ContentPasteIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Past</ListItemText>
-            </MenuItem>
-            <Divider />
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <DeleteForeverIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Delete this column</ListItemText>
-            </MenuItem>
-            <MenuItem onClick={handleClose}>
-              <ListItemIcon>
-                <Cloud fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Archie this column</ListItemText>
-            </MenuItem>
-          </Menu>
+            {column?.title}
+          </Typography>
+          <Box>
+            <ExpandMoreIcon
+              id="basic-button-column-dropdown"
+              aria-controls={open ? "basic-column-dropdown" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+              sx={{
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
+                cursor: "pointer",
+              }}
+            />
+            <Menu
+              id="basic-column-dropdown"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button-column-dropdown",
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <AddCardIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Add New Card</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <ContentCutIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Cut</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <ContentCopyIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Copy</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <ContentPasteIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Past</ListItemText>
+              </MenuItem>
+              <Divider />
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <DeleteForeverIcon fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Delete this column</ListItemText>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <ListItemIcon>
+                  <Cloud fontSize="small" />
+                </ListItemIcon>
+                <ListItemText>Archie this column</ListItemText>
+              </MenuItem>
+            </Menu>
+          </Box>
         </Box>
-      </Box>
-      {/* List Box */}
-      <ListCards cards={cardsOrdered} />
-      {/* Footer Box */}
-      <Box
-        sx={{
-          display: "flex",
-          padding: "8px 16px",
-          alignItems: "center",
-          justifyContent: "space-between",
-          height: (theme) => theme.trello.footerColumnHeight,
-        }}
-      >
-        <Button
+        {/* List Box */}
+        <ListCards cards={cardsOrdered} />
+        {/* Footer Box */}
+        <Box
           sx={{
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
+            display: "flex",
+            padding: "8px 16px",
+            alignItems: "center",
+            justifyContent: "space-between",
+            height: (theme) => theme.trello.footerColumnHeight,
           }}
-          startIcon={<AddCardIcon />}
         >
-          Add new card
-        </Button>
-        <Tooltip title="Drag move column">
-          <DragHandleIcon
+          <Button
             sx={{
               color: (theme) =>
                 theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
-              cursor: "pointer",
             }}
-          />
-        </Tooltip>
+            startIcon={<AddCardIcon />}
+          >
+            Add new card
+          </Button>
+          <Tooltip title="Drag move column">
+            <DragHandleIcon
+              sx={{
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "#ED7D31" : "#7E2553",
+                cursor: "pointer",
+              }}
+            />
+          </Tooltip>
+        </Box>
       </Box>
-    </Box>
+    </div>
   );
 }
 
