@@ -27,7 +27,11 @@ function Card({ card }) {
   };
   return (
     <MuiCard
-      sx={{ maxWidth: 345, overflow: "unset" }}
+      sx={{
+        maxWidth: 345,
+        overflow: "unset",
+        display: card?.FE_PlaceholderCard ? "none" : "block",
+      }}
       ref={setNodeRef}
       style={dndKitCardStyles}
       {...attributes}
